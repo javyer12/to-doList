@@ -1,8 +1,20 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { usePrevious } from "./usePrevious";
+
+// function usePrevious(value) {
+//   const ref = useRef();
+//   useEffect(() => {
+//     ref.current = value;
+//   });
+//   return ref.current;
+// }
 
 export function ToDo(props) {
+  const editFieldRef = useRef(null);
+  const editButtonRef = useRef(null);
   const [isEditing, setEditing] = useState(false);
   const [newName, setNewName] = useState("");
+  const wasEditing = usePrevious(isEditing);
 
   function handleChange(e) {
     setNewName(e.target.value);
@@ -25,6 +37,7 @@ export function ToDo(props) {
           type="text"
           value={newName}
           onChange={handleChange}
+          ref={editFieldRef}
         />
       </div>
       <div className="btn-group">
@@ -50,14 +63,19 @@ export function ToDo(props) {
           id={props.id}
           type="checkbox"
           defaultChecked={props.completed}
-          onChange={() => props.toggleTaskCompleted(props.id)}
+          onChange={() => props.toggleTaskCompleted(props.ID)}
         />
         <label className="todo-label" htmlFor={props.id}>
           {props.name}
         </label>
       </div>
       <div className="btn-group">
-        <button type="button" className="btn" onClick={() => setEditing(true)}>
+        <button
+          type="button"
+          className="btn"
+          onClick={() => setEditing(true)}
+          ref={editButtonRef}
+        >
           Edit <span className="visually-hidden">{props.name}</span>
         </button>
         <button
@@ -71,6 +89,14 @@ export function ToDo(props) {
     </div>
   );
 
+  useEffect(() => {
+    if (!wasEditing && isEditing) {
+      editFieldRef.current.focus();
+    }
+    if (wasEditing && !isEditing) {
+      editButtonRef.current.focus();
+    }
+  }, [wasEditing, isEditing]);
   return (
     <>
       <li className="todo stack-small">
