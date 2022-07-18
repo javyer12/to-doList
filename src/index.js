@@ -1,8 +1,8 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import { App } from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import { App } from "./App";
+import reportWebVitals from "./reportWebVitals";
 
 const DATA = [
   { id: "todo-0", name: "Eat", completed: true },
@@ -10,10 +10,10 @@ const DATA = [
   // { id: "todo-2", name: "Repeat", completed: false }
 ];
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App  tasks={DATA}/>
+    <App tasks={DATA} />
   </React.StrictMode>
 );
 

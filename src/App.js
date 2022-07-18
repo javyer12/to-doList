@@ -8,7 +8,6 @@ export function App(props) {
   const [tasks, setTask] = useState(props.tasks);
 
   function toggleTaskCompleted(id) {
-    console.log(tasks[2]);
     const updatedTasks = tasks.map((task) => {
       if (id === task.id) {
         return { ...task, completed: !task.completed };
@@ -25,18 +24,36 @@ export function App(props) {
       key={task.id}
       toggleTaskCompleted={toggleTaskCompleted}
       deleteTask={deleteTask}
+      editTask={editTask}
     />
   ));
   function addTask(name) {
-    const newTask = { id: "todo" + nanoid(), name: name, completed: false };
-    setTask([...tasks, newTask]);
+    if (name === " ") {
+      alert("No task inserted");
+    } else {
+      const newTask = { id: "todo" + nanoid(), name: name, completed: false };
+      setTask([...tasks, newTask]);
+    }
   }
+
+  function editTask(id, newName) {
+    console.log(newName);
+
+    const editedTask = tasks.map((task) => {
+      if (id === task.id) {
+        return { ...task, name: newName };
+      }
+      return task;
+    });
+    console.log(editedTask);
+    setTask(editedTask);
+  }
+
   function deleteTask(id) {
-    console.log(id)
-    const remainingTask = tasks.filter(task => id !== task.id);
+    const remainingTask = tasks.filter((task) => id !== task.id);
     setTask(remainingTask);
   }
-  
+
   const tasksNoun = taskList.length !== 1 ? "tasks" : "task";
   const headingText = `${taskList.length} ${tasksNoun} remaining`;
 

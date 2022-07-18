@@ -1,4 +1,7 @@
+import { useState } from "react";
 export function FilterButton() {
+  const [filter, setFilter] = useState('All');
+
   return (
     <>
       <button type="button" className="btn toggle-btn" aria-pressed="true">
